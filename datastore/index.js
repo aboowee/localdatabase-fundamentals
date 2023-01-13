@@ -27,10 +27,28 @@ exports.create = (text, callback) => {
 };
 
 exports.readAll = (callback) => {
-  var data = _.map(items, (text, id) => {
-    return { id, text };
+
+  fs.readdir(exports.dataDir, (err, files) => {
+    if (err) {
+      throw ('error reading files');
+    } else {
+      console.log('files are: ', files);
+      //
+      var data = _.map(files, (file) => {
+        let id = file.split('.txt')[0];
+        return { id, text: items[id] };
+      });
+      console.log('array of data: ', data);
+      callback(null, data);
+    }
+
+
   });
-  callback(null, data);
+
+
+  //return array of todos on get
+  //read dataDir directory (build list)
+  //include text field in response / recommended to use message's id for both the id field and the text field
 };
 
 exports.readOne = (id, callback) => {
@@ -65,7 +83,7 @@ exports.delete = (id, callback) => {
 
 // Config+Initialization code -- DO NOT MODIFY /////////////////////////////////
 
-exports.dataDir = path.join(__dirname, 'data');
+exports.dataDir = path.join(__dirname, 'data'); // C:/Windows/User/Name/data
 
 exports.initialize = () => {
   if (!fs.existsSync(exports.dataDir)) {
