@@ -41,7 +41,6 @@ const writeCounter = (count, callback) => {
 exports.getNextUniqueId = (callback) => {
 
   const writeCallback = (err, counterString) => {
-    console.log(counterString, 'test counter');
     callback(err, counterString);
     // return counterString;
   };
