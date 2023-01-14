@@ -65,8 +65,20 @@ exports.update = (id, text, callback) => {
   if (!item) {
     callback(new Error(`No item with id: ${id}`));
   } else {
+    // items[id] = text;
+    // callback(null, { id, text });
+
+    const filePath = exports.dataDir + `/${id}.txt`;
     items[id] = text;
-    callback(null, { id, text });
+
+    fs.writeFile(filePath, text, (err) => {
+      if (err) {
+        throw ('error writing counter');
+      } else {
+        callback(null, { id, text });
+      }
+    });
+
   }
 };
 
