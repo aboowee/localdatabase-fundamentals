@@ -52,7 +52,7 @@ exports.readAll = (callback) => {
 };
 
 exports.readOne = (id, callback) => {
-  var text = items[id];
+  const text = items[id];
   if (!text) {
     callback(new Error(`No item with id: ${id}`));
   } else {
