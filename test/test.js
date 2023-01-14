@@ -131,6 +131,15 @@ describe('todos', () => {
       });
     });
 
+    it('should allow data to be available in then block', (done) => {
+      todos.readAll()
+        .then((todoList) => {
+          expect(todoList).to.be.an('array');
+          done();
+        })
+        .catch(err => console.log(err));
+    });
+
   });
 
   describe('readOne', () => {

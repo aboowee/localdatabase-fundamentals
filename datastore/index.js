@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const _ = require('underscore');
 const counter = require('./counter');
+const Promise = require('bluebird');
 
 var items = {};
 
@@ -26,7 +27,7 @@ exports.create = (text, callback) => {
 
 };
 
-exports.readAll = (callback) => {
+const readAll = (callback) => {
 
   fs.readdir(exports.dataDir, (err, files) => {
     if (err) {
@@ -47,6 +48,9 @@ exports.readAll = (callback) => {
   //read dataDir directory (build list)
   //include text field in response / recommended to use message's id for both the id field and the text field
 };
+
+exports.readAll = Promise.promisify(readAll);
+// exports.readAll = readAll;
 
 exports.readOne = (id, callback) => {
   const text = items[id];
