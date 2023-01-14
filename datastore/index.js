@@ -32,13 +32,10 @@ exports.readAll = (callback) => {
     if (err) {
       throw ('error reading files');
     } else {
-      console.log('files are: ', files);
-      //
       var data = _.map(files, (file) => {
         let id = file.split('.txt')[0];
         return { id, text: items[id] };
       });
-      console.log('array of data: ', data);
       callback(null, data);
     }
 
@@ -84,12 +81,24 @@ exports.update = (id, text, callback) => {
 
 exports.delete = (id, callback) => {
   var item = items[id];
-  delete items[id];
   if (!item) {
     // report an error if item not found
     callback(new Error(`No item with id: ${id}`));
   } else {
-    callback();
+    delete items[id];
+    const filePath = exports.dataDir + `/${id}.txt`;
+
+    fs.unlink(filePath, (err) => {
+      callback(err);
+      // if (err) {
+      //   // throw ('error deleting file');
+      //   callback(err);
+      // } else {
+      //   callback();
+      // }
+    });
+
+    // callback();
   }
 };
 
